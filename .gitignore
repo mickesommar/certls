@@ -1,0 +1,5 @@
+# Ignore releases directory.
+releases
+
+# Ignore macos directorys
+.DS_Store
