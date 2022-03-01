@@ -27,7 +27,7 @@ import (
 	"gitea.mickesommar.com/golang/certls"
 )
 
-func TestReadConfig(t *testing.T) {
+func TestReadJSONConfig(t *testing.T) {
 	c := certls.NewConfig("test_data/hosts.json")
 	if err := c.Read(); err != nil {
 		t.Errorf("could not read config: %v", err)

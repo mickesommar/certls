@@ -27,6 +27,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
+
+	"gopkg.in/yaml.v2"
 )
 
 // Config store configuration for certls.
@@ -52,6 +55,26 @@ func (c *Config) Exists() bool {
 
 // Read config from disk.
 func (c *Config) Read() error {
+	if strings.HasSuffix(strings.ToLower(c.path), ".json") {
+		return c.readJSON()
+	} else if strings.HasSuffix(strings.ToLower(c.path), ".yaml") || strings.HasSuffix(strings.ToLower(c.path), ".yml") {
+		return c.readYAML()
+	}
+	return fmt.Errorf("wrong file type")
+}
+
+// Write config to disk.
+func (c *Config) Write() error {
+	if strings.HasSuffix(strings.ToLower(c.path), ".json") {
+		return c.writeJSON()
+	} else if strings.HasSuffix(strings.ToLower(c.path), ".yaml") {
+		return c.writeYAML()
+	}
+	return fmt.Errorf("wrong file type")
+}
+
+// readJSON
+func (c *Config) readJSON() error {
 	if _, err := os.Stat(c.path); os.IsNotExist(err) {
 		return fmt.Errorf("file is missing: %s", c.path)
 	}
@@ -67,9 +90,39 @@ func (c *Config) Read() error {
 	return nil
 }
 
-// Write config to disk.
-func (c *Config) Write() error {
+// writeJSON
+func (c *Config) writeJSON() error {
 	buf, err := json.Marshal(c)
+	if err != nil {
+		return err
+	}
+
+	if err := os.WriteFile(c.path, buf, 0600); err != nil {
+		return err
+	}
+	return nil
+}
+
+// readYAML
+func (c *Config) readYAML() error {
+	if _, err := os.Stat(c.path); os.IsNotExist(err) {
+		return fmt.Errorf("file is missing: %s", c.path)
+	}
+
+	buf, err := os.ReadFile(c.path)
+	if err != nil {
+		return err
+	}
+
+	if err := yaml.Unmarshal(buf, &c); err != nil {
+		return err
+	}
+	return nil
+}
+
+// writeYAML
+func (c *Config) writeYAML() error {
+	buf, err := yaml.Marshal(c)
 	if err != nil {
 		return err
 	}

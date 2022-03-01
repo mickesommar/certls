@@ -13,9 +13,6 @@ Outputs:
 ## Input file
 All server/hosts are stored in a JSON file (using flag -host-file=<path>)
 
-## No dependencies
-This app is build with go standard library only.
-
 ## Build
 To build sslstats
 

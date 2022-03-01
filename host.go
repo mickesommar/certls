@@ -27,8 +27,8 @@ import "fmt"
 
 // Host to read remote certificate from.
 type Host struct {
-	Address string `json:"address"`
-	Port    string `json:"port"`
+	Address string `json:"address" yaml:"address"`
+	Port    string `json:"port" yaml:"port"`
 }
 
 // String return address:port as a string.
