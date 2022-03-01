@@ -188,7 +188,7 @@ OPTIONS:
 	for _, address := range config.Hosts {
 		certs, err := certLS.Connect(address)
 		if err != nil {
-			log.Printf("error connecting to address: %v\n", err)
+			log.Printf("ERROR: %s %v\n", address.String(), err)
 			continue
 		}
 		for _, cert := range certs {
