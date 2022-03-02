@@ -111,24 +111,6 @@ It is possible to use: --show-all, to display CA issuer and Domain Names.
 			Usage:   "Skip verification of TLS certificates (INSECURE)",
 			EnvVars: []string{"CERTLS_SKIP_TLS_VERIFY"},
 		},
-		//		&cli.BoolFlag{
-		//			Name:    "show-ca",
-		//			Aliases: []string{"sa"},
-		//			Usage:   "Show CA Certificate",
-		//			EnvVars: []string{"CERTLS_SHOW_CA"},
-		//		},
-		//		&cli.BoolFlag{
-		//			Name:    "show-issuer",
-		//			Aliases: []string{"si"},
-		//			Usage:   "Show certificate issuer",
-		//			EnvVars: []string{"CERTLS_SHOW_ISSUER"},
-		//		},
-		//		&cli.BoolFlag{
-		//			Name:    "show-dns-names",
-		//			Aliases: []string{"sdns"},
-		//			Usage:   "Show DNS names",
-		//			EnvVars: []string{"CERTLS_SHOW_DNS_NAMES"},
-		//		},
 		&cli.BoolFlag{
 			Name:    "show-all",
 			Aliases: []string{"a"},
