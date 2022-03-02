@@ -26,13 +26,9 @@ package certls
 // Options for reading and showing certificates.
 type Options struct {
 	// SkipTLSVerify do not verify TLS certificate.
-	SkipTLSVerify bool `json:"skiptlsverify"`
-	// ShowCA also show CA certificates.
-	ShowCA bool `json:"showca"`
-	// ShowIssuer show issuer in output/fields.
-	ShowIssuer bool `json:"showissuer"`
-	// ShowDNSNames show DNS Names in output/fields.
-	ShowDNSNames bool `json:"showdnsnames"`
+	SkipTLSVerify bool
+	// ShowAll fields and CAs.
+	ShowAll bool
 	// TimeOut timeout for TCP connection.
-	TimeOut int `json:"timeout"`
+	TimeOut int
 }

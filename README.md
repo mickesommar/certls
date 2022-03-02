@@ -9,12 +9,13 @@ Outputs:
 * text
 * csv
 * json
+* yaml
 
 ## Input file
-All server/hosts are stored in a JSON file (using flag -host-file=<path>)
+All server/hosts are stored in a JSON or YAML file (using flag --host-file=<path>)
 
 ## Build
-To build sslstats
+To build certls
 
 ```
 go build -o certls cmd/certls/main.go

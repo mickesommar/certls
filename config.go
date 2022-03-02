@@ -27,9 +27,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 // Config store configuration for certls.
@@ -53,82 +54,28 @@ func (c *Config) Exists() bool {
 	return true
 }
 
-// Read config from disk.
+// Read config from disk, try to read both JSON or YAML.
 func (c *Config) Read() error {
-	if strings.HasSuffix(strings.ToLower(c.path), ".json") {
-		return c.readJSON()
-	} else if strings.HasSuffix(strings.ToLower(c.path), ".yaml") || strings.HasSuffix(strings.ToLower(c.path), ".yml") {
-		return c.readYAML()
-	}
-	return fmt.Errorf("wrong file type")
-}
-
-// Write config to disk.
-func (c *Config) Write() error {
-	if strings.HasSuffix(strings.ToLower(c.path), ".json") {
-		return c.writeJSON()
-	} else if strings.HasSuffix(strings.ToLower(c.path), ".yaml") {
-		return c.writeYAML()
-	}
-	return fmt.Errorf("wrong file type")
-}
-
-// readJSON
-func (c *Config) readJSON() error {
 	if _, err := os.Stat(c.path); os.IsNotExist(err) {
 		return fmt.Errorf("file is missing: %s", c.path)
 	}
 
 	buf, err := os.ReadFile(c.path)
 	if err != nil {
-		return err
+		return fmt.Errorf("error reading file: %v", err)
 	}
 
-	if err := json.Unmarshal(buf, &c); err != nil {
-		return err
-	}
-	return nil
-}
-
-// writeJSON
-func (c *Config) writeJSON() error {
-	buf, err := json.Marshal(c)
-	if err != nil {
-		return err
-	}
-
-	if err := os.WriteFile(c.path, buf, 0600); err != nil {
-		return err
-	}
-	return nil
-}
-
-// readYAML
-func (c *Config) readYAML() error {
-	if _, err := os.Stat(c.path); os.IsNotExist(err) {
-		return fmt.Errorf("file is missing: %s", c.path)
-	}
-
-	buf, err := os.ReadFile(c.path)
-	if err != nil {
-		return err
-	}
-
-	if err := yaml.Unmarshal(buf, &c); err != nil {
-		return err
-	}
-	return nil
-}
-
-// writeYAML
-func (c *Config) writeYAML() error {
-	buf, err := yaml.Marshal(c)
-	if err != nil {
-		return err
-	}
-
-	if err := os.WriteFile(c.path, buf, 0600); err != nil {
-		return err
+	switch strings.ToLower(filepath.Ext(c.path)) {
+	case ".json":
+		if err := json.Unmarshal(buf, &c); err != nil {
+			return fmt.Errorf("error unmarshal JSON: %v", err)
+		}
+	case ".yaml":
+		if err := yaml.Unmarshal(buf, &c); err != nil {
+			return fmt.Errorf("error unmarshal YAML: %v", err)
+		}
+	default:
+		return fmt.Errorf("wrong file format, need to be JSON or YAML")
 	}
 	return nil
 }

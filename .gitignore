@@ -3,7 +3,3 @@ releases
 
 # Ignore macos directorys
 .DS_Store
-
-# Ignore hosts files.
-hosts.yaml
-hosts.json

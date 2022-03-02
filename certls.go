@@ -57,7 +57,7 @@ func (c *Certls) Connect(h Host) ([]Certificate, error) {
 
 	certs := make([]Certificate, 0)
 	for _, cert := range conn.ConnectionState().PeerCertificates {
-		if cert.IsCA && !c.options.ShowCA {
+		if cert.IsCA && !c.options.ShowAll {
 			continue
 		}
 		certs = append(certs, NewCertificate(

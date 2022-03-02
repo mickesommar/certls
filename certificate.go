@@ -27,15 +27,16 @@ import "strings"
 
 // Certificate
 type Certificate struct {
-	ConnectionString string   `json:"connectionstring"`
-	CommonName       string   `json:"commonname"`
-	Created          string   `json:"created"`
-	Expire           string   `json:"expire"`
-	Issuer           string   `json:"issuer"`
-	DNSNames         []string `json:"dnsnames"`
-	Options          Options  `json:"-"`
+	ConnectionString string   `json:"connectionstring" yaml:"connectionstring"`
+	CommonName       string   `json:"commonname" yaml:"commonname"`
+	Created          string   `json:"created" yaml:"created"`
+	Expire           string   `json:"expire" yaml:"expire"`
+	Issuer           string   `json:"issuer" yaml:"issuer"`
+	DNSNames         []string `json:"dnsnames" yaml:"dnsnames"`
+	Options          Options  `json:"-" yaml:"-"`
 }
 
+// NewCertificate return a new certificate.
 func NewCertificate(connectionString, commonName, created, expire, issuer string, dnsNames []string, options Options) Certificate {
 	return Certificate{
 		ConnectionString: connectionString,
@@ -52,11 +53,8 @@ func NewCertificate(connectionString, commonName, created, expire, issuer string
 func (c *Certificate) Fields() []string {
 	f := make([]string, 0)
 	f = append(f, c.ConnectionString, c.CommonName, c.Created, c.Expire)
-	if c.Options.ShowIssuer {
-		f = append(f, c.Issuer)
-	}
-	if c.Options.ShowDNSNames {
-		f = append(f, strings.Join(c.DNSNames, ", "))
+	if c.Options.ShowAll {
+		f = append(f, c.Issuer, strings.Join(c.DNSNames, ", "))
 	}
 	return f
 }
@@ -65,11 +63,8 @@ func (c *Certificate) Fields() []string {
 func CertificateFieldsNames(options Options) []string {
 	f := make([]string, 0)
 	f = append(f, "Host", "Common Name", "Created", "Expire")
-	if options.ShowIssuer {
-		f = append(f, "Issuer")
-	}
-	if options.ShowDNSNames {
-		f = append(f, "DNS Names")
+	if options.ShowAll {
+		f = append(f, "Issuer", "DNS Names")
 	}
 	return f
 }

@@ -36,3 +36,13 @@ func TestReadJSONConfig(t *testing.T) {
 		t.Errorf("want: 2, got: %d", len(c.Hosts))
 	}
 }
+
+func TestReadYAMLConfig(t *testing.T) {
+	c := certls.NewConfig("test_data/hosts.yaml")
+	if err := c.Read(); err != nil {
+		t.Errorf("could not read config: %v", err)
+	}
+	if len(c.Hosts) != 2 {
+		t.Errorf("want: 2, got: %d", len(c.Hosts))
+	}
+}
