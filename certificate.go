@@ -23,21 +23,24 @@
 // Package certls
 package certls
 
-import "strings"
+import (
+	"strings"
+	"time"
+)
 
 // Certificate
 type Certificate struct {
-	ConnectionString string   `json:"connectionstring" yaml:"connectionstring"`
-	CommonName       string   `json:"commonname" yaml:"commonname"`
-	Created          string   `json:"created" yaml:"created"`
-	Expire           string   `json:"expire" yaml:"expire"`
-	Issuer           string   `json:"issuer" yaml:"issuer"`
-	DNSNames         []string `json:"dnsnames" yaml:"dnsnames"`
-	Options          Options  `json:"-" yaml:"-"`
+	ConnectionString string    `json:"connectionstring" yaml:"connectionstring"`
+	CommonName       string    `json:"commonname" yaml:"commonname"`
+	Created          time.Time `json:"created" yaml:"created"`
+	Expire           time.Time `json:"expire" yaml:"expire"`
+	Issuer           string    `json:"issuer" yaml:"issuer"`
+	DNSNames         []string  `json:"dnsnames" yaml:"dnsnames"`
+	Options          Options   `json:"-" yaml:"-"`
 }
 
 // NewCertificate return a new certificate.
-func NewCertificate(connectionString, commonName, created, expire, issuer string, dnsNames []string, options Options) Certificate {
+func NewCertificate(connectionString, commonName, issuer string, created, expire time.Time, dnsNames []string, options Options) Certificate {
 	return Certificate{
 		ConnectionString: connectionString,
 		CommonName:       commonName,
@@ -52,7 +55,7 @@ func NewCertificate(connectionString, commonName, created, expire, issuer string
 // Fields return a slice of strings with Certificate fields.
 func (c *Certificate) Fields() []string {
 	f := make([]string, 0)
-	f = append(f, c.ConnectionString, c.CommonName, c.Created, c.Expire)
+	f = append(f, c.ConnectionString, c.CommonName, c.Created.Format("2006-01-02"), c.Expire.Format("2006-01-02"))
 	if c.Options.ShowAll {
 		f = append(f, c.Issuer, strings.Join(c.DNSNames, ", "))
 	}

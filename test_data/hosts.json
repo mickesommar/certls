@@ -1,6 +1,10 @@
 {
     "hosts": [
         {
+            "address": "www.dn.se",
+            "port": "443"
+        },
+        {
             "address": "www.google.com",
             "port": "443"
         },

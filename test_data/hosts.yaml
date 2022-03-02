@@ -1,5 +1,6 @@
 hosts:
-  - address: www.sunet.se
-    port: 443
   - address: www.google.com
     port: 443
+  - address: www.bing.com
+    port: 443
+  - address: www.dn.se

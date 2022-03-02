@@ -32,8 +32,8 @@ func TestReadJSONConfig(t *testing.T) {
 	if err := c.Read(); err != nil {
 		t.Errorf("could not read config: %v", err)
 	}
-	if len(c.Hosts) != 2 {
-		t.Errorf("want: 2, got: %d", len(c.Hosts))
+	if len(c.Hosts) != 3 {
+		t.Errorf("want: 3, got: %d", len(c.Hosts))
 	}
 }
 
@@ -42,7 +42,7 @@ func TestReadYAMLConfig(t *testing.T) {
 	if err := c.Read(); err != nil {
 		t.Errorf("could not read config: %v", err)
 	}
-	if len(c.Hosts) != 2 {
-		t.Errorf("want: 2, got: %d", len(c.Hosts))
+	if len(c.Hosts) != 3 {
+		t.Errorf("want: 3, got: %d", len(c.Hosts))
 	}
 }

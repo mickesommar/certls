@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sort"
 	"strings"
 	"text/tabwriter"
 
@@ -148,6 +149,11 @@ It is possible to use: --show-all, to display CA issuer and Domain Names.
 			}
 			allCerts = append(allCerts, certs...)
 		}
+
+		// Sort by expire, as default.
+		sort.Slice(allCerts, func(i, j int) bool {
+			return allCerts[i].Expire.Before(allCerts[j].Expire)
+		})
 
 		// Format output/print to terminal.
 		switch strings.ToLower(c.String("output")) {

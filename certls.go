@@ -63,9 +63,9 @@ func (c *Certls) Connect(h Host) ([]Certificate, error) {
 		certs = append(certs, NewCertificate(
 			h.String(),
 			cert.Subject.CommonName,
-			cert.NotBefore.Format("2006-01-02"),
-			cert.NotAfter.Format("2006-01-02"),
 			cert.Issuer.CommonName,
+			cert.NotBefore,
+			cert.NotAfter,
 			cert.DNSNames, c.options))
 	}
 	return certs, nil
