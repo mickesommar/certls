@@ -4,3 +4,4 @@ hosts:
   - address: www.bing.com
     port: 443
   - address: www.dn.se
+    port: 443
